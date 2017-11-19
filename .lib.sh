@@ -18,7 +18,7 @@ fi
 # configured, try doing a submodule init
 if ! [ -e "$libdir"/libdir.sh ]; then
   echo "$libdir/libdir.sh does not exist, checking for git submodules"
-  SCRIPTDIR=`dirname "$0"`# This would get set anyway...
+  SCRIPTDIR=`dirname "$0"` # This would get set anyway...
   SHLIB_gittld=$(cd $SCRIPTDIR && git rev-parse --show-toplevel) || { echo "does not appear to be a git repo; aborting" 1>&2; exit 1; }
   if [ -e "$SHLIB_gittld"/.gitmodules ]; then
     echo "initializing submodules in $SHLIB_gittld ..."
