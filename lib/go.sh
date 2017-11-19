@@ -31,3 +31,25 @@ goGet() {
     $get
 }
 
+getDefaultGopath(){
+  local git_tld
+  git_tld="$(getGitTLD)"
+
+  local gopath
+  gopath="${git_tld%$(getGoGitRepoSubPath)}"
+
+  # Sanity check it...
+  dir_sanity "$gopath"
+
+  echo "$gopath"
+}
+
+ExportGopath(){
+  if [ -z "$GOPATH" ]; then
+    export GOPATH="$(getDefaultGopath)"
+  fi
+  # TODO: Ensure at least first part of GOPATH is somewhere in PATH, because
+  # that's where tools get installed
+}
+
+# vi: expandtab sw=2 ts=2

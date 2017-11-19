@@ -14,10 +14,34 @@ if ! [ -d "$libdir" -o -L "$libdir" ]; then #     -L file       True if file exi
   exit 1
 fi
 
-. $libdir/libdir.sh || { echo "Unable to load libdir.sh" 1>&2; exit 1; }
+# If libdir.sh doesn't exist but it looks like we're in git with submodules
+# configured, try doing a submodule init
+if ! [ -e "$libdir"/libdir.sh ]; then
+  echo "$libdir/libdir.sh does not exist, checking for git submodules"
+  SCRIPTDIR=`dirname "$0"`# This would get set anyway...
+  SHLIB_gittld=$(cd $SCRIPTDIR && git rev-parse --show-toplevel) || { echo "does not appear to be a git repo; aborting" 1>&2; exit 1; }
+  if [ -e "$SHLIB_gittld"/.gitmodules ]; then
+    echo "initializing submodules in $SHLIB_gittld ..."
+    git -C "$SHLIB_gittld" submodule update --init --recursive || { echo "unable to init submodules. git returned $?" 1>&2; exit 1; }
+    echo done
+  fi    
+fi
 
-if [ -r "$libdir"/../.lib.post.sh ]; then
-  . "$libdir"/../.lib.post.sh || { echo "Unable to load $libdir/../.lib.post.sh" 1>&2; exit 1; }
+. "$libdir"/libdir.sh || { echo "Unable to load $libdir/libdir.sh" 1>&2; exit 1; }
+
+if [ -r "$SCRIPTDIR"/.lib.post.sh ]; then
+  # Do this the hard way so we're not pulling in debug.sh
+  if [ -n "$DEBUG" ]; then if [ "$DEBUG" -ge 90 ]; then
+    echo "sourcing $SCRIPTDIR/lib.post.sh" 1>&2
+  fi; fi
+
+  . "$SCRIPTDIR"/.lib.post.sh || { echo "Unable to load $SCRIPTDIR/lib.post.sh" 1>&2; exit 1; }
+else
+  # Do this the hard way so we're not pulling in debug.sh
+  if [ -n "$DEBUG" ]; then if [ "$DEBUG" -ge 90 ]; then
+    echo "$SCRIPTDIR/lib.post.sh does not exist; skipping" 1>&2
+  fi; fi
+
 fi
 
 # vi: expandtab sw=2 ts=2
