@@ -35,14 +35,14 @@ cfExpectedEndpoint() {
 # TODO: cf target is depressingly slow; cache this stuff somehow
 cfCurrentEndpoint () {
   local endpoint
-  endpoint=$(cf target | grep 'API endpoint': | awk '{print $3}') || cfDie "unable to get current endpoint"
+  endpoint=$(cf target | grep -i 'API endpoint': | awk '{print $3}') || cfDie "unable to get current endpoint"
   debug_vars 9 endpoint
   echo $endpoint
 }
 
 cfCurrentSpace () {
   local space
-  space=$(cf target | grep Space: | awk '{print $2}') || cfDie "unable to get current space"
+  space=$(cf target | grep -i Space: | awk '{print $2}') || cfDie "unable to get current space"
   debug_vars 9 space
   echo $space
 }

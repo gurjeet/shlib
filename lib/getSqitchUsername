@@ -1,0 +1,17 @@
+#!/usr/bin/perl -w -CAS
+
+use lib '/usr/local/lib/perl5', '/usr/local/lib/perl5/darwin-thread-multi-2level';
+use POSIX qw(setlocale);
+BEGIN {
+    if ($^O eq 'MSWin32') {
+        require Win32::Locale;
+        setlocale POSIX::LC_ALL, Win32::Locale::get_locale();
+    } else {
+        setlocale POSIX::LC_ALL, '';
+    }
+}
+use App::Sqitch;
+
+my $sqitch = App::Sqitch->new();
+
+print $sqitch->user_name . "\n";
