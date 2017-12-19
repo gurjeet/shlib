@@ -27,7 +27,7 @@ sqitchConfGet() {
 sqitchSanity() {
   if [ -z "`sqitchConfGet user.email`" ]; then
     local getUser
-    getUser="$SCRIPTDIR"/bin/lib/getSqitchUsername
+    getUser="$libdir"/bin/lib/getSqitchUsername
     file_sanity "$getUser"
 
     read -p "Please enter your email address. It will be added to your per-user sqitch config: " email

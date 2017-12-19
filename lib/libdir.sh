@@ -3,9 +3,14 @@
 # Get an absolute path
 libdir="$(cd "$libdir"; pwd)"
 
-# Set convenience variable.
-SCRIPTDIR="$(cd "$(dirname "$0")"; pwd)"
-SCRIPTNAME="$(basename "$0")"
+# Set convenience variables
+SCRIPTDIR=${SCRIPTDIR:-"$(cd "$(dirname "$0")"; pwd)"}
+SCRIPTNAME=${SCRIPTNAME:-"$(basename "$0")"}
+
+# Do this the hard way so we're not pulling in debug.sh
+if [ -n "$DEBUG" ]; then if [ "$DEBUG" -ge 90 ]; then
+  echo "$(caller): libload: \$0=$0 \$libdir=$libdir \$SCRIPTDIR=$SCRIPTDIR \$SCRIPTNAME=$SCRIPTNAME" 1>&2
+fi; fi
 
 libload() {
   # Do this the hard way so we're not pulling in debug.sh

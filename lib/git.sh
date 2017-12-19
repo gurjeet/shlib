@@ -6,7 +6,9 @@ getGitTLD(){
   [ -n "$SCRIPTDIR" ] || die 99 "SCRIPTDIR must be set to a directory underneath the Lynny-Whitebox repo"
 
   local tld
+  debug 90 "executing cd $SCRIPTDIR && git rev-parse --show-toplevel"
   tld=$(cd $SCRIPTDIR && git rev-parse --show-toplevel) || die 98 "unable to find git TLD"
+  debug_vars 89 tld
   
   # Sanity-check it...
   dir_sanity "$tld"
