@@ -5,7 +5,7 @@ libload die.sh
 CF_ERROR=${CF_ERROR:-9}
 
 cfDie () {
-    die $CF_ERROR $@
+    die $CF_ERROR ERROR: $@
 }
 
 # Lookup functions

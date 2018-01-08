@@ -4,6 +4,26 @@
 . $libdir/libdir.sh
 libload die.sh
 
+# Verify that each variable specified has a non-empty value
+checkVarsNotEmpty () {
+  local variable
+  local value
+  for variable in $*; do
+    eval value=\$$variable
+    [ -n "$value" ] || die 1 "$variable must be set"
+  done
+}
+
+# Verify that each variable specified is empty
+checkVarsEmpty () {
+  local variable
+  local value
+  for variable in $*; do
+    eval value=\$$variable
+    [ -z "$value" ] || die 1 "$variable must not be set"
+  done
+}
+
 brewCheck(){
   # WARNING: this is untested!
   exe=$1

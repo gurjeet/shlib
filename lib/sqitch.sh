@@ -1,6 +1,41 @@
 # Just assume that at minimum libload has already been loaded
 libload git.sh
 
+# TODO: all these functions should really start with `sqitch`
+
+# Create a URI-DB (https://github.com/theory/uri-db/). Except for DB Name,
+# inputs are in URI order. Arguments 6+ are treated as key+value options to add
+sqitchBuildURI()(
+  dbName="$1"
+  user="$2"
+  pw="$3"
+  host="$4"
+  port="$5"
+  shift 5
+
+  for item in "$@"; do
+    query="$query${query:+&}$item"
+  done
+  query="${query:+?}$query"
+
+  # userInfo
+  if [ -n "$user" -o -n "$pw" ]; then
+    userInfo="$user"
+
+    # If we have a password, append it
+    [ -z "$pw" ] || userInfo="$userInfo:$pw"
+
+    # No matter what, we need a trailing @
+    userInfo="$userInfo@"
+  fi
+
+  port="${port:+:}$port"
+
+  authority="${userInfo}${host}${port}"
+
+  echo "db:pg://$authority/${dbName}$query"
+)
+
 # sqitch TLD happens to also be git TLD
 getSqitchTLD(){
   getGitTLD
@@ -27,7 +62,7 @@ sqitchConfGet() {
 sqitchSanity() {
   if [ -z "`sqitchConfGet user.email`" ]; then
     local getUser
-    getUser="$libdir"/bin/lib/getSqitchUsername
+    getUser="$libdir"/getSqitchUsername
     file_sanity "$getUser"
 
     read -p "Please enter your email address. It will be added to your per-user sqitch config: " email

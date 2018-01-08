@@ -70,6 +70,10 @@ findInPath() {
 
 
 file_sanity() {
+  debug 1 "file_sanity() is deprecated; please use fileSanity()"
+  fileSanity "$@"
+}
+fileSanity() {
   for file in "$@"; do
     [ -e "$file" ] || die 1 "error: file '$file' does not exist"
     [ -r "$file" ] || die 1 "error: file '$file' is not readable"
@@ -77,6 +81,10 @@ file_sanity() {
 }
 
 dir_sanity() {
+  debug 1 "dir_sanity() is deprecated; please use fileSanity()"
+  fileSanity "$@"
+}
+dirSanity() {
   debug 81 "dir_sanity($@)"
   for dir in "$@"; do
     [ -e "$dir" ] || die 1 "error: dir '$dir' does not exist"

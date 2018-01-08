@@ -18,6 +18,7 @@ getGitTLD(){
 
 cdGitTLD(){
   dir=$(getGitTLD) || exit $?
+  debug 19 "cdGitTLD: cd $dir"
   cd $dir || exit $?
 }
 
