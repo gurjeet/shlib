@@ -11,7 +11,7 @@ getGitTLD(){
   debug_vars 89 tld
   
   # Sanity-check it...
-  dir_sanity "$tld"
+  dirSanity "$tld"
 
   echo "$tld"
 }

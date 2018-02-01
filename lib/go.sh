@@ -39,7 +39,7 @@ getDefaultGopath(){
   gopath="${git_tld%$(getGoGitRepoSubPath)}"
 
   # Sanity check it...
-  dir_sanity "$gopath"
+  dirSanity "$gopath"
 
   echo "$gopath"
 }

@@ -85,7 +85,7 @@ dir_sanity() {
   fileSanity "$@"
 }
 dirSanity() {
-  debug 81 "dir_sanity($@)"
+  debug 81 "dirSanity($@)"
   for dir in "$@"; do
     [ -e "$dir" ] || die 1 "error: dir '$dir' does not exist"
     [ -d "$dir" ] || die 1 "error: '$dir' is not a directory"
