@@ -76,6 +76,7 @@ file_sanity() {
 fileSanity() {
   for file in "$@"; do
     [ -e "$file" ] || die 1 "error: file '$file' does not exist"
+    [ -f "$file" ] || die 1 "error: '$file' is not a regular file" # TODO: handle symlinks
     [ -r "$file" ] || die 1 "error: file '$file' is not readable"
   done
 }
