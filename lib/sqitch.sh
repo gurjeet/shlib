@@ -44,13 +44,13 @@ cdSqitchTLD(){
   cdGitTLD
 }
 
-# Unlike SqitchTLD, TOPDIR is the directory that the plan file is in. It's also where the deploy stuff is.
-getSqitchTOPDIR(){
+# Unlike SqitchTLD, TopDir is the directory that the plan file is in. It's also where the deploy stuff is.
+getSqitchTopDir(){
   local d=$(sqitchConfGet core.top_dir) || exit $?
   echo "$(getSqitchTLD)/$d/"
 }
-cdSqitchTOPDIR(){
-  local dir=$(getSqitchTOPDIR) || exit $?
+cdSqitchTopDir(){
+  local dir=$(getSqitchTopDir) || exit $?
   debug 5 "cd '$dir'"
   cd "$dir" || exit $?
 }
