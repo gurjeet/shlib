@@ -64,6 +64,18 @@ cfDemandEnvironmentIs () {
   [ -n "$actual" -a "$actual" == "$expected" ] || cfDie "wrong cf target for $1; expected endpoint $expected, got $actual"
 }
 
+cfDemandSpaceIsOneOf () {
+  [ $# -ge 1 ] || die "invalid call to cfSpaceIs $@"
+
+  local actual=$(cfCurrentSpace)
+  for s in "$@"; do
+    if [ "$actual" == "$s" ]; then
+      return
+    fi
+  done
+  cfDie "wrong cf target; $actual is not one of $@"
+}
+
 cfDemandSpaceIs () {
   [ $# -eq 1 ] || die "invalid call to cfSpaceIs $@"
 
